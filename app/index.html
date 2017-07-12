@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Health Care DApp</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .section {
+      margin: 20px;
+    }
+    button {
+      padding: 5px 16px;
+      border-radius: 4px;
+    }
+    button#changeQuota { background-color: yellow; }
+    button#buyTicket { background-color: #98fb98; }
+    button#refundTicket { background-color: pink; }
+    button#createWallet { background-color: #add8e6; }
+    #seed {color: green;}
+
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
+
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="./app.js"></script>
+</head>
+<body>
+  <h1>Health Care DApp</h1>
+  <div class="section">
+    Patient Contract deployed at: <div id="patientContractAddress"></div>
+  </div>
+
+
+  <hr/>
+
+  <div class="section">
+    <h2>Update Patient</h2>
+    <br/><br/>
+    Name: <input type="text" id="patientName" />
+    <br/>
+    DOB: <input type="text" id="patientDOB" />
+    <br/>
+    Gender: <input type="text" id="patientGender" />
+    <br/>
+    <button id="updatePatient">Update Patient</button>
+    <br/>
+      <span id="updatePatientResult"></span>
+  </div>
+
+  <hr/>
+
+  <div class="section">
+    <h2>Patient Change Log</h2>
+    <br/>
+    <br/>
+    <table id="patientLog">
+      <tr>
+    <th>Name</th>
+    <th>DOB</th>
+    <th>Gender</th>
+    <th>Block #</th>
+  </tr>
+  <table/>
+
+  </div>
+
+  <hr/>
+
+
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+
+Contract Address:
+
+0x0731a9211ad232f5d5a227f1c5d8f13a6a63667f
+
+Set filter to fetch all the event logs for contract address:
+
+var filter = eth.filter({address:'0x0731a9211ad232f5d5a227f1c5d8f13a6a63667f', fromBlock:0})
+
+fetch all event logs for set filter:
+
+filter.get()
+
+eth.getTransaction('0xf1f79d8acf63234d8f40a61232c1349d284f2f007911d5aff262690844133107')
+
+web3.sha3('PatientChanged(string,string)')
+
+web3.sha3('SetName(string)')
+
+web3.sha3('SetDateOfBirth(string)')
+
+web3.sha3('SetGender(string)')
+
+var patientAbi = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_gender","type":"string"}],"name":"SetGender","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"SetName","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"dateOfBirth","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"gender","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_dateOfBirth","type":"string"}],"name":"SetDateOfBirth","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"key","type":"string"},{"indexed":false,"name":"value","type":"string"}],"name":"PatientChanged","type":"event"}]
+
+var patientContract = eth.contract(patientAbi)
+
+var patientInstance = patientContract.at('0x0731a9211ad232f5d5a227f1c5d8f13a6a63667f')
+
+Latest state of name:
+
+patientInstance.name()
+
+Past state for name:
+
+patientInstance.name(blockNumber)
