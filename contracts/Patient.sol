@@ -1,34 +1,52 @@
 pragma solidity ^0.4.2;
+import "./Condition.sol";
 
 contract Patient {
 
   string public name;
   string public dateOfBirth;
   string public gender;
+  Condition[] conditions;
 
   // Event that is fired when patient is changed
-  event PatientChanged(string whatChanged);
+  event patientChanged(string whatChanged);
+
+  function Patient(){
+    conditions = new Condition[](10);
+  }
 
   // FAMILY^GIVEN^MIDDLE
-  function SetName(string _name) {
+  function setName(string _name) {
     name = _name;
-    PatientChanged("name"); // fire the event
+    patientChanged("name changed"); // fire the event
   }
   // YYYYMMDD
-  function SetDateOfBirth(string _dateOfBirth) {
+  function setDateOfBirth(string _dateOfBirth) {
     dateOfBirth = _dateOfBirth;
-    PatientChanged("dateOfBirth"); // fire the event
+    patientChanged("dateOfBirth changed"); // fire the event
   }
   // M,F,U,O
-  function SetGender(string _gender) {
+  function setGender(string _gender) {
     gender = _gender;
-    PatientChanged("gender"); // fire the event
+    patientChanged("gender changed"); // fire the event
   }
 
-  function SetPatient(string _name, string _dateOfBirth, string _gender) {
+  function setPatient(string _name, string _dateOfBirth, string _gender, string _condition) {
     name = _name;
     dateOfBirth = _dateOfBirth;
     gender = _gender;
-    PatientChanged("Patient"); // fire the event
+    Condition c = new Condition(_condition, _condition);
+    conditions.push(c);
+    patientChanged("Patient Changed"); // fire the event
+  }
+
+  function addCondition(string _id, string _desc){
+    Condition c = new Condition(_id, _desc);
+    conditions.push(c);
+    patientChanged("condition added");
+  }
+
+  function getConditions() returns (Condition[] conditions){
+    return conditions;
   }
 }

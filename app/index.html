@@ -32,7 +32,7 @@
     padding: 8px;
     }
 
-    tr:nth-child(even) {
+    tr:nth-child(odd) {
       background-color: #dddddd;
     }
   </style>
@@ -51,14 +51,21 @@
   <div class="section">
     <h2>Update Patient</h2>
     <br/><br/>
-    Name: <input type="text" id="patientName" />
-    <br/>
-    DOB: <input type="text" id="patientDOB" />
-    <br/>
-    Gender: <input type="text" id="patientGender" />
-    <br/>
+    Name:&nbsp;&nbsp;&nbsp;&nbsp;  <input type="text" id="patientName" />&nbsp;&nbsp;<button id="updatePatientName">Update Name</button>
+    <br/><br/>
+    DOB:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <input type="text" id="patientDOB" />&nbsp;&nbsp;<button id="updatePatientDOB">Update DOB</button>
+    <br/><br/>
+    Gender:&nbsp;&nbsp;  <input type="text" id="patientGender" />&nbsp;&nbsp;<button id="updatePatientGender">Update Gender</button>
+    <br/><br/>
+    Condition:  <select id="patientCondition">
+  <option value="Diabetes">Diabetes</option>
+  <option value="Asthma">Asthma</option>
+  <option value="Cancer">Cancer</option>
+
+</select> &nbsp;&nbsp;<button id="updatePatientCondition">Update Condition</button>
+    <br/><br/>
     <button id="updatePatient">Update Patient</button>
-    <br/>
+    <br/><br/>
       <span id="updatePatientResult"></span>
   </div>
 
@@ -70,9 +77,11 @@
     <br/>
     <table id="patientLog">
       <tr>
+        <th>Event</th>
     <th>Name</th>
     <th>DOB</th>
     <th>Gender</th>
+    <th>Conditions</th>
     <th>Block #</th>
   </tr>
   <table/>
