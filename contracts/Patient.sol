@@ -3,17 +3,18 @@ import "./Condition.sol";
 
 contract Patient {
 
-  string public name;
-  string public dateOfBirth;
-  string public gender;
-  Condition[] conditions;
+
+  string public name = "";
+  string public dateOfBirth = "";
+  string public gender = "" ;
+  address[] conditions;
 
   // Event that is fired when patient is changed
   event patientChanged(string whatChanged);
 
-  function Patient(){
-    conditions = new Condition[](10);
-  }
+//  function Patient(){
+  //  conditions = new Condition[](10);
+  //}
 
   // FAMILY^GIVEN^MIDDLE
   function setName(string _name) {
@@ -46,7 +47,7 @@ contract Patient {
     patientChanged("condition added");
   }
 
-  function getConditions() returns (Condition[] conditions){
+  function getCondition() returns (address[]){
     return conditions;
   }
 }

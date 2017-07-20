@@ -5,12 +5,15 @@ import ethjsabi from 'ethjs-abi';
 
 // Import our contract artifacts and turn them into usable abstractions.
 import patient_artifacts from '../../build/contracts/Patient.json'
+import condition_artifacts from '../../build/contracts/Condition.json'
 
 // Patient is our usable abstraction, which we'll use through the code below.
 var Patient = contract(patient_artifacts);
+var Condition = contract(condition_artifacts);
 
 var accounts, account;
 var myPatientInstance;
+var myConditionInstance;
 
 // Initialize
 function initializePatient() {
@@ -28,40 +31,7 @@ web3.personal.unlockAccount(accounts[0], "BE1010be");
 	});
 }
 
-// Check Values
-// function checkValues() {
-// 	myConferenceInstance.quota.call().then(
-// 		function(quota) {
-// 			$("input#confQuota").val(quota);
-// 			return myConferenceInstance.organizer.call();
-// 	}).then(
-// 		function(organizer) {
-// 			$("input#confOrganizer").val(organizer);
-// 			return myConferenceInstance.numRegistrants.call();
-// 	}).then(
-// 		function(num) {
-// 			$("#numRegistrants").html(num.toNumber());
-// 			return myConferenceInstance.organizer.call();
-// 	});
-// }
-//
-// // Change Quota
-// function changeQuota(val) {
-// 	myConferenceInstance.changeQuota(val, {from: accounts[0]}).then(
-// 		function() {
-// 			return myConferenceInstance.quota.call();
-// 		}).then(
-// 		function(quota) {
-// 			if (quota == val) {
-// 				var msgResult;
-// 				msgResult = "Change successful";
-// 			} else {
-// 				msgResult = "Change failed";
-// 			}
-// 			$("#changeQuotaResult").html(msgResult);
-// 		});
-// }
-//
+
 // // Update Patient
 function updatePatient(name, dob, gender, condition) {
 
@@ -71,7 +41,7 @@ web3.personal.unlockAccount(accounts[0], "BE1010be");
 
 console.log("Updating patient");
 
-myPatientInstance.setPatient(name, dob, gender, condition, {from: accounts[0], gas: 4712387}).then(
+myPatientInstance.setPatient(name, dob, gender, condition, condition, {from: accounts[0], gas: 4712387}).then(
         		function(){
               $("#updatePatientResult").html("Patient updated successfully");
 
@@ -245,10 +215,10 @@ function getPatientChangeEventLog(){
       console.log("Patient chnage event: " + result);
 
       var patientLogTable = $("#patientLog");
-      var patientLogHtml = "<tr><th>Name</th><th>Name</th><th>DOB</th><th>Gender</th><th>Conditions</th><th>Block #</th></tr>";
+      var patientLogHtml = "<tr><th>Event</th><th>Name</th><th>DOB</th><th>Gender</th><th>Conditions</th><th>Block #</th></tr>";
       result.forEach(function(e) {
         var abi = patient_artifacts.abi;
-        var data = ethjsabi.decodeEvent(abi[10], e.data);
+        var data = ethjsabi.decodeEvent(abi[9], e.data);
         //console.log(data);
         console.log("Decode Data: " + data[0]);
 
@@ -261,9 +231,11 @@ function getPatientChangeEventLog(){
         var name = pi.name.call(e.blockNumber);
         var dob = pi.dateOfBirth.call(e.blockNumber);
         var gender = pi.gender.call(e.blockNumber);
-        var conditions = pi.getConditions.call(e.blockNumber);
+        var conditions = pi.getCondition.call(e.blockNumber);
 
-        patientLogHtml = patientLogHtml + "<tr><td>" + data[0] + "</td><td>" + name + "</td><td>" + dob + "</td><td>" + gender + "</td><td>" + conditions + "</td><td>" + e.blockNumber + "</td></tr>";
+        var formatedConditions = formatConditions(conditions);
+
+        patientLogHtml = patientLogHtml + "<tr><td>" + data[0] + "</td><td>" + name + "</td><td>" + dob + "</td><td>" + gender + "</td><td>" + formatedConditions + "</td><td>" + e.blockNumber + "</td></tr>";
 
         // web3.eth.getBlock(e.blockNumber, function(err, block) {
         //   myPatientInstance.name(e.blockNumber, function(err,name) {
@@ -288,7 +260,21 @@ function getPatientChangeEventLog(){
 
 }
 
+function formatConditions(conditions){
 
+  var conditionAbi = condition_artifacts.abi;
+  var formatedConditions = "";
+  for (var i = 0; i < conditions.length; i++) {
+
+  if(conditions[i] != null && conditions[i] != ""){
+    var ci = web3.eth.contract(conditionAbi).at(conditions[i]);
+    formatedConditions = formatedConditions + ci.desc();
+  }
+
+  }
+
+  return formatedConditions;
+}
 
 window.onload = function() {
 
